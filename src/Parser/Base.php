@@ -113,10 +113,10 @@ class Base implements ParserInterface
         # Turn block-level HTML blocks into hash entries
         $text = $this->hashHTMLBlocks($text);
 
-        # Run document gamut methods.
-        foreach ($this->document_gamut as $method => $priority) {
-            $text = $this->$method($text);
-        }
+        // Run document-wide methods.
+        // Strip link definitions, store in hashes.
+        $text = $this->stripLinkDefinitions($text);
+        $text = $this->runBasicBlockGamut($text);
 
         // Re-initialize to default state
         $this->initialize();
@@ -195,12 +195,6 @@ class Base implements ParserInterface
             str_repeat('(?>[^()\s]+|\(', $this->maxUrlParenthesisDepth) .
             str_repeat('(?>\)))*', $this->maxUrlParenthesisDepth);
     }
-
-    var $document_gamut = array(
-        # Strip link definitions, store in hashes.
-        "stripLinkDefinitions" => 20,
-        "runBasicBlockGamut" => 30,
-    );
 
     /**
      * Strips link definitions from text, stores the URLs and titles in hash
