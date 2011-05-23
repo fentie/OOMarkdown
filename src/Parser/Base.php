@@ -208,17 +208,18 @@ class Base implements ParserInterface
         "runBasicBlockGamut" => 30,
     );
 
-    #
-    # Strips link definitions from text, stores the URLs and titles in
-    # hash references.
-
-    #
+    /**
+     * Strips link definitions from text, stores the URLs and titles in hash
+     * references.
+     *
+     * @param string $text
+     * @return string
+     */
 	function stripLinkDefinitions($text)
     {
-
         $less_than_tab = $this->tabWidth - 1;
 
-        # Link defs are in the form: ^[id]: url "optional title"
+        // Link defs are in the form: ^[id]: url "optional title"
         $text = preg_replace_callback('{
 							^[ ]{0,' . $less_than_tab . '}\[(.+)\][ ]?:	# id = $1
 							  [ ]*
@@ -1483,11 +1484,14 @@ class Base implements ParserInterface
         return preg_replace('/^(\t|[ ]{1,' . $this->tabWidth . "})/", '', $text, 1);
     }
 
+    /**
+     * Reintroduce all the tags hashed by hashHTMLBlocks.
+     *
+     * @param string $text
+     * @return string
+     */
     function unhash($text)
     {
-        #
-        # Swap back in all the tags hashed by _HashHTMLBlocks.
-        #
 		return preg_replace_callback('/(.)\x1A[0-9]+\1/', array($this, '_unhash_callback'), $text);
     }
 
