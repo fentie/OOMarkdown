@@ -66,13 +66,6 @@ class Base implements ParserInterface
     {
         $this->emptyElementSuffix = ($useXhtml) ? '/>' : '>';
         $this->tabWidth = $tabWidth;
-
-        $this->prepareItalicsAndBold();
-
-        # Sort document, block, and span gamut in ascendent priority order.
-        asort($this->document_gamut);
-        asort($this->block_gamut);
-        asort($this->span_gamut);
     }
 
     /**
@@ -107,6 +100,7 @@ class Base implements ParserInterface
     function transform($text)
     {
         $this->initialize();
+        $this->prepareItalicsAndBold();
 
         $text = $this->removeUtf8Bom($text);
         $text = $this->convertLineEndings($text);
