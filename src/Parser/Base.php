@@ -490,35 +490,21 @@ class Base implements ParserInterface
 			}mx', "\n" . $this->hashBlock("<hr$this->emptyElementSuffix") . "\n", $text);
     }
 
-    var $span_gamut = array(
-        #
-        # These are all the transformations that occur *within* block-level
-        # tags like paragraphs, headers, and list items.
-        #
-		# Process character escapes, code spans, and inline HTML
-        # in one shot.
-        "parseSpan" => -30,
-        # Process anchor and image tags. Images must come first,
-        # because ![foo][f] looks like an anchor.
-        "doImages" => 10,
-        "doAnchors" => 20,
-        # Make links out of things like `<http://example.com/>`
-        # Must come after doAnchors, because you can use < and >
-        # delimiters in inline links like [this](<url>).
-        "doAutoLinks" => 30,
-        "encodeAmpsAndAngles" => 40,
-        "doItalicsAndBold" => 50,
-        "doHardBreaks" => 60,
-    );
-
+    /**
+     * Run tranformations on inline tags
+     *
+     * @param string $text
+     * @return string
+     */
     function runSpanGamut($text)
     {
-        #
-        # Run span gamut tranformations.
-        #
-		foreach ($this->span_gamut as $method => $priority) {
-            $text = $this->$method($text);
-        }
+        $text = $this->parseSpan($text);
+        $text = $this->doImages($text);
+        $text = $this->doAnchors($text);
+        $text = $this->doAutoLinks($text);
+        $text = $this->encodeAmpsAndAngles($text);
+        $text = $this->doItalicsAndBold($text);
+        $text = $this->doHardBreaks($text);
 
         return $text;
     }
