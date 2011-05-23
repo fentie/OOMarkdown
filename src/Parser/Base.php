@@ -509,6 +509,12 @@ class Base implements ParserInterface
         return $text;
     }
 
+    /**
+     * Transforms paired newline characters into <br> tags
+     *
+     * @param string $text
+     * @return string
+     */
     function doHardBreaks($text)
     {
         # Do hard breaks:
