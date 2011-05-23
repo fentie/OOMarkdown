@@ -12,21 +12,13 @@
  */
 namespace Markdown;
 
-#
-# Markdown  -  A text-to-HTML conversion tool for web writers
-#
-# PHP Markdown
-# Copyright (c) 2004-2009 Michel Fortin  
-# <http://michelf.com/projects/php-markdown/>
-#
-# Original Markdown
-# Copyright (c) 2004-2006 John Gruber  
-# <http://daringfireball.net/projects/markdown/>
-#
+const MARKDOWN_VERSION = '1.0.1n'; // Sat 10 Oct 2009
 
-
-define( 'MARKDOWN_VERSION',  "1.0.1n" ); # Sat 10 Oct 2009
-
+/**
+ * Class to manage conversions between Markdown syntax and HTML
+ * 
+ * @author Brian Fenton <brian@brianfenton.us>
+ */
 class Markdown
 {
     private $parser = null;
