@@ -430,18 +430,6 @@ class Base implements ParserInterface
 		return $this->hashPart($text, 'B');
     }
 
-    /**
-     * Transformations that form block-level tags
-     * @var array
-     */
-    var $block_gamut = array(
-		"doHeaders" => 10,
-        "doHorizontalRules" => 20,
-        "doLists" => 40,
-        "doCodeBlocks" => 50,
-        "doBlockQuotes" => 60,
-    );
-
     #
     # Run block gamut tranformations.
     #
@@ -464,11 +452,13 @@ class Base implements ParserInterface
     #
     function runBasicBlockGamut($text)
     {
-		foreach ($this->block_gamut as $method => $priority) {
-            $text = $this->$method($text);
-        }
+		$text = $this->doHeaders($text);
+        $text = $this->doHorizontalRules($text);
+        $text = $this->doLists($text);
+        $text = $this->doCodeBlocks($text);
+        $text = $this->doBlockQuotes($text);
 
-        # Finally form paragraph and restore hashed blocks.
+        // Finally form paragraph and restore hashed blocks.
         $text = $this->formParagraphs($text);
 
         return $text;
