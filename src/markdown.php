@@ -1,4 +1,15 @@
 <?php
+/**
+ * Markdown  -  A text-to-HTML conversion tool for web writers
+ *
+ * PHP Markdown
+ * @copyright Copyright (c) 2004-2009 Michel Fortin
+ * @see http://michelf.com/projects/php-markdown/
+ *
+ * Original Markdown
+ * @copyright Copyright (c) 2004-2006 John Gruber
+ * @see http://daringfireball.net/projects/markdown/
+ */
 namespace Markdown;
 
 #
