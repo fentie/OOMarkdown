@@ -119,7 +119,7 @@ class Base implements ParserInterface
         $text = $this->runBasicBlockGamut($text);
 
         // Re-initialize to default state
-        $this->initialize();
+        $this->reset();
 
         return $text . "\n";
     }
