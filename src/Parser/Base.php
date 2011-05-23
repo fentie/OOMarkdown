@@ -811,11 +811,14 @@ class Base implements ParserInterface
         return "\n" . $this->hashBlock($block) . "\n\n";
     }
 
+    /**
+     * Form HTML ordered (numbered) and unordered (bulleted) lists.
+     *
+     * @param string $text
+     * @return string
+     */
     function doLists($text)
     {
-        #
-        # Form HTML ordered (numbered) and unordered (bulleted) lists.
-        #
 		$less_than_tab = $this->tabWidth - 1;
 
         # Re-usable patterns to match list item bullets and number markers:
@@ -896,33 +899,32 @@ class Base implements ParserInterface
 
     var $list_level = 0;
 
+    #
+    #	Process the contents of a single ordered or unordered list, splitting it
+    #	into individual list items.
+    #
+    # The $this->list_level global keeps track of when we're inside a list.
+    # Each time we enter a list, we increment it; when we leave a list,
+    # we decrement. If it's zero, we're not in a list anymore.
+    #
+    # We do this because when we're not inside a list, we want to treat
+    # something like this:
+    #
+    #		I recommend upgrading to version
+    #		8. Oops, now this line is treated
+    #		as a sub-list.
+    #
+    # As a single paragraph, despite the fact that the second line starts
+    # with a digit-period-space sequence.
+    #
+    # Whereas when we're inside a list (or sub-list), that line will be
+    # treated as the start of a sub-list. What a kludge, huh? This is
+    # an aspect of Markdown's syntax that's hard to parse perfectly
+    # without resorting to mind-reading. Perhaps the solution is to
+    # change the syntax rules such that sub-lists must start with a
+    # starting cardinal number; e.g. "1." or "a.".
     function processListItems($list_str, $marker_any_re)
     {
-        #
-        #	Process the contents of a single ordered or unordered list, splitting it
-        #	into individual list items.
-        #
-		# The $this->list_level global keeps track of when we're inside a list.
-        # Each time we enter a list, we increment it; when we leave a list,
-        # we decrement. If it's zero, we're not in a list anymore.
-        #
-		# We do this because when we're not inside a list, we want to treat
-        # something like this:
-        #
-		#		I recommend upgrading to version
-        #		8. Oops, now this line is treated
-        #		as a sub-list.
-        #
-		# As a single paragraph, despite the fact that the second line starts
-        # with a digit-period-space sequence.
-        #
-		# Whereas when we're inside a list (or sub-list), that line will be
-        # treated as the start of a sub-list. What a kludge, huh? This is
-        # an aspect of Markdown's syntax that's hard to parse perfectly
-        # without resorting to mind-reading. Perhaps the solution is to
-        # change the syntax rules such that sub-lists must start with a
-        # starting cardinal number; e.g. "1." or "a.".
-
         $this->list_level++;
 
         # trim trailing blank lines:
@@ -966,11 +968,13 @@ class Base implements ParserInterface
         return "<li>" . $item . "</li>\n";
     }
 
+    /**
+     * Process Markdown `<pre><code>` blocks.
+     * @param string $text
+     * @return string
+     */
     function doCodeBlocks($text)
     {
-        #
-        #	Process Markdown `<pre><code>` blocks.
-        #
 		$text = preg_replace_callback('{
 				(?:\n\n|\A\n?)
 				(	            # $1 = the code block -- one or more lines, starting with a space/tab
