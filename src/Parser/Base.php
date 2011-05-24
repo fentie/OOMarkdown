@@ -215,7 +215,7 @@ class Base implements ParserInterface
     {
         $this->noEntities = false;
     }
-    
+
     /**
      * Strips link definitions from text, stores the URLs and titles in hash
      * references.
