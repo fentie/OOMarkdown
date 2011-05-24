@@ -633,7 +633,7 @@ class Base implements ParserInterface
         $link_id = & $matches[3];
 
         if ($link_id == "") {
-            # for shortcut links like [this][] or [this].
+            // for shortcut links like [this][] or [this].
             $link_id = $link_text;
         }
 
@@ -682,14 +682,16 @@ class Base implements ParserInterface
         return $this->hashPart($result);
     }
 
-    #
-    # Turn Markdown image shortcuts into <img> tags.
-    #
-    #
-    # First, handle reference-style labeled images: ![alt text][id]
-    #
+    /**
+     * Turn Markdown image shortucts into <img> tags
+     * @param string $text
+     * @return string
+     */
     function doImages($text)
     {
+        /*
+         * First, handle reference-style labeled images: ![alt text][id]
+         */
 		$text = preg_replace_callback('{
 			(				# wrap whole match in $1
 			  !\[
@@ -706,10 +708,10 @@ class Base implements ParserInterface
 			)
 			}xs', array($this, '_doImages_reference_callback'), $text);
 
-        #
-        # Next, handle inline images:  ![alt text](url "optional title")
-        # Don't forget: encode * and _
-        #
+        /*
+         * Next, handle inline images:  ![alt text](url "optional title")
+         * Don't forget: encode * and _
+         */
 		$text = preg_replace_callback('{
 			(				# wrap whole match in $1
 			  !\[
