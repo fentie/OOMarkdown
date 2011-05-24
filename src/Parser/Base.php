@@ -449,7 +449,7 @@ class Base implements ParserInterface
         static $i = 0;
         $key = "$boundary\x1A" . ++$i . $boundary;
         $this->htmlHashes[$key] = $text;
-        return $key; # String that will replace the tag.
+        return $key; // String that will replace the tag.
     }
 
     /**
@@ -459,10 +459,7 @@ class Base implements ParserInterface
      */
     function hashBlock($text)
     {
-        #
-        # Shortcut function for hashPart with block-level boundaries.
-        #
-		return $this->hashPart($text, 'B');
+        return $this->hashPart($text, 'B');
     }
 
     #
