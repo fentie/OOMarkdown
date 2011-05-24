@@ -69,6 +69,7 @@ class Base implements ParserInterface
 
     /**
      * Set parser to initial state
+     * @return void
      */
     public function initialize()
     {
