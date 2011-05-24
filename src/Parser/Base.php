@@ -637,10 +637,10 @@ class Base implements ParserInterface
             $link_id = $link_text;
         }
 
-        # lower-case and turn embedded newlines into spaces
-        $link_id = strtolower($link_id);
-        $link_id = preg_replace('{[ ]?\n}', ' ', $link_id);
+        // lower-case and turn embedded newlines into spaces
+        $link_id = preg_replace('{[ ]?\n}', ' ', strtolower($link_id));
 
+        $result = '';
         if (isset($this->urls[$link_id])) {
             $url = $this->urls[$link_id];
             $url = $this->encodeAttribute($url);
@@ -663,7 +663,6 @@ class Base implements ParserInterface
 
     function _doAnchors_inline_callback($matches)
     {
-        $whole_match = $matches[1];
         $link_text = $this->runSpanGamut($matches[2]);
         $url = $matches[3] == '' ? $matches[4] : $matches[3];
         $title = & $matches[7];
@@ -770,7 +769,6 @@ class Base implements ParserInterface
 
     function _doImages_inline_callback($matches)
     {
-        $whole_match = $matches[1];
         $alt_text = $matches[2];
         $url = $matches[3] == '' ? $matches[4] : $matches[3];
         $title = & $matches[7];
