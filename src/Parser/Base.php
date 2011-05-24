@@ -195,6 +195,26 @@ class Base implements ParserInterface
             str_repeat('(?>\)))*', $this->maxUrlParenthesisDepth);
     }
 
+    public function disableMarkupParsing()
+    {
+        $this->noMarkup = true;
+    }
+
+    public function enableMarkupParsing()
+    {
+        $this->noMarkup = false;
+    }
+
+    public function disableEntityParsing()
+    {
+        $this->noEntities = true;
+    }
+
+    public function enableEntityParsing()
+    {
+        $this->noEntities = false;
+    }
+    
     /**
      * Strips link definitions from text, stores the URLs and titles in hash
      * references.
