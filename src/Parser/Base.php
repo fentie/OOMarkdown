@@ -45,9 +45,9 @@ class Base implements ParserInterface
     var $predef_titles = array();
 
     # Internal hashes used during transformation.
-    var $urls = array();
-    var $titles = array();
-    var $html_hashes = array();
+    protected $urls = array();
+    protected $titles = array();
+    protected $htmlHashes = array();
 
     /**
      * Status flag to avoid invalid nesting.
@@ -84,7 +84,7 @@ class Base implements ParserInterface
         # Clear global hashes.
         $this->urls = $this->predef_urls;
         $this->titles = $this->predef_titles;
-        $this->html_hashes = array();
+        $this->htmlHashes = array();
 
         $this->insideAnchor = false;
     }
@@ -405,7 +405,7 @@ class Base implements ParserInterface
         # Then hash the block.
         static $i = 0;
         $key = "$boundary\x1A" . ++$i . $boundary;
-        $this->html_hashes[$key] = $text;
+        $this->htmlHashes[$key] = $text;
         return $key; # String that will replace the tag.
     }
 
@@ -1206,7 +1206,7 @@ class Base implements ParserInterface
                 # Is a block.
                 # Modify elements of @grafs in-place...
                 $graf = $value;
-                $block = $this->html_hashes[$graf];
+                $block = $this->htmlHashes[$graf];
                 $graf = $block;
 //				if (preg_match('{
 //					\A
@@ -1469,7 +1469,7 @@ class Base implements ParserInterface
 
     function _unhash_callback($matches)
     {
-        return $this->html_hashes[$matches[0]];
+        return $this->htmlHashes[$matches[0]];
     }
 
 }
