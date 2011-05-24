@@ -527,7 +527,7 @@ class Base implements ParserInterface
      * @param string $text
      * @return string
      */
-    function runSpanGamut($text)
+    public function runSpanGamut($text)
     {
         $text = $this->parseSpan($text);
         $text = $this->doImages($text);
@@ -546,9 +546,8 @@ class Base implements ParserInterface
      * @param string $text
      * @return string
      */
-    function doHardBreaks($text)
+    public function doHardBreaks($text)
     {
-        # Do hard breaks:
         return preg_replace_callback('/ {2,}\n/', array($this, '_doHardBreaks_callback'), $text);
     }
 
@@ -557,7 +556,13 @@ class Base implements ParserInterface
         return $this->hashPart("<br$this->emptyElementSuffix\n");
     }
 
-    function doAnchors($text)
+    /**
+     * Turn Markdown links into HTML anchor tags
+     *
+     * @param string $text
+     * @return string
+     */
+    public function doAnchors($text)
     {
         #
         # Turn Markdown link shortcuts into XHTML <a> tags.
