@@ -280,11 +280,25 @@ class Base implements ParserInterface
 
         $lessThanTab = $this->tabWidth - 1;
 
+        /*
+         * We only want to do this for block-level HTML tags, such as headers,
+         * lists, and tables. That's because we still want to wrap <p>s around
+         * "paragraphs" that are wrapped in non-block-level tags, such as
+         * anchors, phrase emphasis, and spans. The list of tags we're looking
+         * for is hard-coded:
+         *
+         * *  List "a" is made of tags which can be both inline or block-level.
+         *    These will be treated block-level when the start tag is alone on
+         *    its line, otherwise they're not matched here and will be taken as
+         *    inline later.
+         *
+         *  *  List "b" is made of tags which are always block-level;
+         */
 		$block_tags_a_re = 'ins|del';
         $block_tags_b_re = 'p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|address|' .
             'script|noscript|form|fieldset|iframe|math';
 
-        # Regular expression for the content of a block tag.
+        // Regular expression for the content of a block tag.
         $nested_tags_level = 4;
         $attr = '
 			(?>				# optional tag attributes
@@ -310,8 +324,8 @@ class Base implements ParserInterface
 					(?>
 					  />
 					|
-					  >', $nested_tags_level) . # end of opening tag
-            '.*?' . # last level nested tag content
+					  >', $nested_tags_level) . // end of opening tag
+            '.*?' . // last level nested tag content
             str_repeat('
 					  </\2\s*>	# closing nested tag
 					)
