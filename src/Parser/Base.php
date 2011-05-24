@@ -332,20 +332,23 @@ class Base implements ParserInterface
 				  |
 					<(?!/\2\s*>	# other tags with a different name
 				  )
-				)*', $nested_tags_level);
+				)*', $nestedTagLevel);
         $content2 = str_replace('\2', '\3', $content);
 
-        # First, look for nested blocks, e.g.:
-        # 	<div>
-        # 		<div>
-        # 		tags for inner block must be indented.
-        # 		</div>
-        # 	</div>
-        #
-		# The outermost tags must start at the left margin for this to match, and
-        # the inner nested divs must be indented.
-        # We need to do this before the next, more liberal match, because the next
-        # match will start at the first `<div>` and stop at the first `</div>`.
+        /*
+         * First, look for nested blocks, e.g.:
+         * 	<div>
+         * 		<div>
+         * 		tags for inner block must be indented.
+         * 		</div>
+         * 	</div>
+         *
+         * The outermost tags must start at the left margin for this to match,
+         * and the inner nested divs must be indented.
+         * We need to do this before the next, more liberal match, because the
+         * next match will start at the first `<div>` and stop at the first
+         * `</div>`.
+         */
         $text = preg_replace_callback('{(?>
 			(?>
 				(?<=\n\n)		# Starting after a blank line
@@ -418,29 +421,42 @@ class Base implements ParserInterface
         return "\n\n$key\n\n";
     }
 
-    function hashPart($text, $boundary = 'X')
+    /**
+     * Called whenever a tag must be hashed when a function insert an atomic
+     * element in the text stream. Passing $text to through this function gives
+     * a unique text-token which will be reverted back when calling unhash.
+     *
+     * @staticvar integer $i
+     * @param string      $text
+     * @param string      $boundary
+     * @return string
+     */
+    public function hashPart($text, $boundary = 'X')
     {
-        #
-        # Called whenever a tag must be hashed when a function insert an atomic
-        # element in the text stream. Passing $text to through this function gives
-        # a unique text-token which will be reverted back when calling unhash.
-        #
-	# The $boundary argument specify what character should be used to surround
-        # the token. By convension, "B" is used for block elements that needs not
-        # to be wrapped into paragraph tags at the end, ":" is used for elements
-        # that are word separators and "X" is used in the general case.
-        #
-		# Swap back any tag hash found in $text so we do not have to `unhash`
-        # multiple times at the end.
+        /*
+         * The $boundary argument specify what character should be used to
+         * surround the token. By convension, "B" is used for block elements
+         * that needs not to be wrapped into paragraph tags at the end, ":" is
+         * used for elements that are word separators and "X" is used in the
+         * general case.
+         *
+         * Swap back any tag hash found in $text so we do not have to `unhash`
+         * multiple times at the end.
+         */
         $text = $this->unhash($text);
 
-        # Then hash the block.
+        // Then hash the block.
         static $i = 0;
         $key = "$boundary\x1A" . ++$i . $boundary;
         $this->htmlHashes[$key] = $text;
         return $key; # String that will replace the tag.
     }
 
+    /**
+     * Shortcut function for hashPart with block-level boundaries.
+     * @param string $text
+     * @return string
+     */
     function hashBlock($text)
     {
         #
