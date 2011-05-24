@@ -500,9 +500,14 @@ class Base implements ParserInterface
         return $text;
     }
 
-    function doHorizontalRules($text)
+    /**
+     * Process text for <hr> tags
+     *
+     * @param string $text
+     * @return string
+     */
+    public function doHorizontalRules($text)
     {
-        # Do Horizontal Rules:
         return preg_replace(
             '{
 				^[ ]{0,3}	# Leading space
