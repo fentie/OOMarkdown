@@ -785,24 +785,31 @@ class Base implements ParserInterface
         return $this->hashPart($result);
     }
 
-    function doHeaders($text)
+    /**
+     * Convert Markdown headers into HTML header tags <h1-6>
+     *
+     * @param string $text
+     * @return string
+     */
+    public function doHeaders($text)
     {
-        # Setext-style headers:
-        #	  Header 1
-        #	  ========
-        #
-        #	  Header 2
-        #	  --------
-        #
+        /*
+         * Setext-style headers:
+         *   Header 1
+         *   ========
+         *   Header 2
+         *   --------
+         */
 		$text = preg_replace_callback('{ ^(.+?)[ ]*\n(=+|-+)[ ]*\n+ }mx', array($this, '_doHeaders_callback_setext'), $text);
 
-        # atx-style headers:
-        #	# Header 1
-        #	## Header 2
-        #	## Header 2 with closing hashes ##
-        #	...
-        #	###### Header 6
-        #
+        /*
+         * atx-style headers:
+         *  # Header 1
+         *  ## Header 2
+         *  ## Header 2 with closing hashes ##
+         *  ...
+         *  ###### Header 6
+         */
 		$text = preg_replace_callback('{
 				^(\#{1,6})	# $1 = string of #\'s
 				[ ]*
