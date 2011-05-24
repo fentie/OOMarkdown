@@ -37,8 +37,8 @@ class Base implements ParserInterface
     private $tabWidth;
 
     # Change to `true` to disallow markup or entities.
-    var $no_markup = false;
-    var $no_entities = false;
+    protected $noMarkup = false;
+    protected $noEntities = false;
 
     # Predefined urls and titles for reference links and images.
     var $predef_urls = array();
@@ -256,7 +256,7 @@ class Base implements ParserInterface
     #
     function hashHTMLBlocks($text)
     {
-        if ($this->no_markup) {
+        if ($this->noMarkup) {
             return $text;
         }
 
@@ -1268,7 +1268,7 @@ class Base implements ParserInterface
         # be encoded. Valid character entities are left alone unless the
         # no-entities mode is set.
         #
-		if ($this->no_entities) {
+		if ($this->noEntities) {
             $text = str_replace('&', '&amp;', $text);
         } else {
             # Ampersand-encoding based entirely on Nat Irons's Amputator
@@ -1381,7 +1381,7 @@ class Base implements ParserInterface
 				|
 					(?<![`\\\\])
 					`+						# code span marker
-			' . ( $this->no_markup ? '' : '
+			' . ( $this->noMarkup ? '' : '
 				|
 					<!--    .*?     -->		# comment
 				|
