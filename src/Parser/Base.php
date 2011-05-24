@@ -6,6 +6,10 @@ namespace Markdown\Parser;
  */
 class Base implements ParserInterface
 {
+    const BOUNDARY_BLOCK = 'B';
+    const BOUNDARY_WORD_SEPARATOR = ':';
+    const BOUNDARY_GENERIC = 'X';
+
     # Regex to match balanced [brackets].
     # Needed to insert a maximum bracked depth while converting to PHP.
 
@@ -428,10 +432,10 @@ class Base implements ParserInterface
      *
      * @staticvar integer $i
      * @param string      $text
-     * @param string      $boundary
+     * @param string      $boundary Use class constants
      * @return string
      */
-    public function hashPart($text, $boundary = 'X')
+    public function hashPart($text, $boundary = self::BOUNDARY_GENERIC)
     {
         /*
          * The $boundary argument specify what character should be used to
@@ -459,7 +463,7 @@ class Base implements ParserInterface
      */
     function hashBlock($text)
     {
-        return $this->hashPart($text, 'B');
+        return $this->hashPart($text, self::BOUNDARY_BLOCK);
     }
 
     #
