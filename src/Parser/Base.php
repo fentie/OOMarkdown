@@ -564,16 +564,12 @@ class Base implements ParserInterface
      */
     public function doAnchors($text)
     {
-        #
-        # Turn Markdown link shortcuts into XHTML <a> tags.
-        #
-		if ($this->insideAnchor)
+		if ($this->insideAnchor) {
             return $text;
+        }
         $this->insideAnchor = true;
 
-        #
-        # First, handle reference-style links: [link text] [id]
-        #
+        // First, handle reference-style links: [link text] [id]
 		$text = preg_replace_callback('{
 			(					# wrap whole match in $1
 			  \[
@@ -589,9 +585,7 @@ class Base implements ParserInterface
 			)
 			}xs', array($this, '_doAnchors_reference_callback'), $text);
 
-        #
-        # Next, inline-style links: [link text](url "optional title")
-        #
+        // Next, inline-style links: [link text](url "optional title")
 		$text = preg_replace_callback('{
 			(				# wrap whole match in $1
 			  \[
@@ -615,11 +609,11 @@ class Base implements ParserInterface
 			)
 			}xs', array($this, '_doAnchors_inline_callback'), $text);
 
-        #
-        # Last, handle reference-style shortcuts: [link text]
-        # These must come last in case you've also got [link text][1]
-        # or [link text](/foo)
-        #
+        /*
+         * Last, handle reference-style shortcuts: [link text]
+         * These must come last in case you've also got [link text][1]
+         * or [link text](/foo)
+         */
 		$text = preg_replace_callback('{
 			(					# wrap whole match in $1
 			  \[
