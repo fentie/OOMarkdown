@@ -299,7 +299,7 @@ class Base implements ParserInterface
             'script|noscript|form|fieldset|iframe|math';
 
         // Regular expression for the content of a block tag.
-        $nested_tags_level = 4;
+        $nestedTagLevel = 4;
         $attr = '
 			(?>				# optional tag attributes
 			  \s			# starts with whitespace
@@ -324,7 +324,7 @@ class Base implements ParserInterface
 					(?>
 					  />
 					|
-					  >', $nested_tags_level) . // end of opening tag
+					  >', $nestedTagLevel) . // end of opening tag
             '.*?' . // last level nested tag content
             str_repeat('
 					  </\2\s*>	# closing nested tag
