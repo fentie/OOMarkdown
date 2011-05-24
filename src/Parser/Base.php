@@ -1,10 +1,9 @@
 <?php
 namespace Markdown\Parser;
 
-#
-# Markdown Parser Class
-#
-
+/**
+ * Base, no frills implementation of a Markdown parser class
+ */
 class Base implements ParserInterface
 {
     # Regex to match balanced [brackets].
