@@ -100,7 +100,7 @@ class Base implements ParserInterface
      * @param string $text Text to convert
      * @return string
      */
-    function transform($text)
+    public function transform($text)
     {
         $this->initialize();
         $this->prepareItalicsAndBold();
@@ -226,7 +226,7 @@ class Base implements ParserInterface
      * @param string $text
      * @return string
      */
-	function stripLinkDefinitions($text)
+	public function stripLinkDefinitions($text)
     {
         $less_than_tab = $this->tabWidth - 1;
 
@@ -265,20 +265,14 @@ class Base implements ParserInterface
         return ''; # String that will replace the block
     }
 
-    # Hashify HTML blocks:
-    # We only want to do this for block-level HTML tags, such as headers,
-    # lists, and tables. That's because we still want to wrap <p>s around
-    # "paragraphs" that are wrapped in non-block-level tags, such as anchors,
-    # phrase emphasis, and spans. The list of tags we're looking for is
-    # hard-coded:
-    #
-    # *  List "a" is made of tags which can be both inline or block-level.
-    #    These will be treated block-level when the start tag is alone on
-    #    its line, otherwise they're not matched here and will be taken as
-    #    inline later.
-    # *  List "b" is made of tags which are always block-level;
-    #
-    function hashHTMLBlocks($text)
+    /**
+     * Stores pre-existing (non-Markdown) HTML blocks in a hash for later
+     * retrieval.
+     *
+     * @param string $text
+     * @return string
+     */
+    public function hashHTMLBlocks($text)
     {
         if ($this->noMarkup) {
             return $text;
