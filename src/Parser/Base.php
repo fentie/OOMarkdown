@@ -30,8 +30,11 @@ class Base implements ParserInterface
      */
     protected $nestedUrlParenthesisRegex = '';
 
-    # Table of hash values for escaped characters:
-    var $escape_chars = '\`*_{}[]()>#+-.!';
+    /**
+     * List of escaped characters
+     * @var string
+     */
+    private $escapeChars = '\`*_{}[]()>#+-.!';
 
     private $emptyElementSuffix;
     private $tabWidth;
@@ -1398,7 +1401,7 @@ class Base implements ParserInterface
 
         $span_re = '{
 				(
-					\\\\[' . preg_quote($this->escape_chars) . ']
+					\\\\[' . preg_quote($this->escapeChars) . ']
 				|
 					(?<![`\\\\])
 					`+						# code span marker
