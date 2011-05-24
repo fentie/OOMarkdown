@@ -294,8 +294,8 @@ class Base implements ParserInterface
          *
          *  *  List "b" is made of tags which are always block-level;
          */
-		$block_tags_a_re = 'ins|del';
-        $block_tags_b_re = 'p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|address|' .
+		$blockTagsARegex = 'ins|del';
+        $blockTagsBRegex = 'p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|address|' .
             'script|noscript|form|fieldset|iframe|math';
 
         // Regular expression for the content of a block tag.
@@ -358,7 +358,7 @@ class Base implements ParserInterface
 			  # in between.
 
 						[ ]{0,' . $lessThanTab . '}
-						<(' . $block_tags_b_re . ')# start tag = $2
+						<(' . $blockTagsBRegex . ')# start tag = $2
 						' . $attr . '>			# attributes followed by > and \n
 						' . $content . '		# content, support nesting
 						</\2>				# the matching end tag
@@ -368,7 +368,7 @@ class Base implements ParserInterface
 			| # Special version for tags of group a.
 
 						[ ]{0,' . $lessThanTab . '}
-						<(' . $block_tags_a_re . ')# start tag = $3
+						<(' . $blockTagsARegex . ')# start tag = $3
 						' . $attr . '>[ ]*\n	# attributes followed by >
 						' . $content2 . '		# content, support nesting
 						</\3>				# the matching end tag
