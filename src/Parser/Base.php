@@ -551,10 +551,16 @@ class Base implements ParserInterface
      */
     public function doHardBreaks($text)
     {
-        return preg_replace_callback('/ {2,}\n/', array($this, '_doHardBreaks_callback'), $text);
+        return preg_replace_callback('/ {2,}\n/', array($this, 'doHardBreak'), $text);
     }
 
-    function _doHardBreaks_callback($matches)
+    /**
+     * Process a single hard break (<br>)
+     *
+     * @param array $matches (unused)
+     * @return string
+     */
+    protected function doHardBreak($matches)
     {
         return $this->hashPart("<br$this->emptyElementSuffix\n");
     }
