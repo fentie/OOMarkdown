@@ -413,12 +413,12 @@ class Base implements ParserInterface
 					(?=\n{2,}|\Z)		# followed by a blank line or end of document
 
 			)
-			)}Sxmi', array($this, '_hashHTMLBlocks_callback'), $text);
+			)}Sxmi', array($this, 'hashHTMLBlock'), $text);
 
         return $text;
     }
 
-    function _hashHTMLBlocks_callback($matches)
+    protected function hashHTMLBlock($matches)
     {
         $text = $matches[1];
         $key = $this->hashBlock($text);
