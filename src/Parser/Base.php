@@ -431,8 +431,8 @@ class Base implements ParserInterface
      * a unique text-token which will be reverted back when calling unhash.
      *
      * @staticvar integer $i
-     * @param string      $text
-     * @param string      $boundary Use class constants
+     * @param     string  $text
+     * @param     string  $boundary Use class constants
      * @return string
      */
     public function hashPart($text, $boundary = self::BOUNDARY_GENERIC)
@@ -481,11 +481,14 @@ class Base implements ParserInterface
         return $this->runBasicBlockGamut($text);
     }
 
-    #
-    # Run block gamut tranformations, without hashing HTML blocks. This is
-    # useful when HTML blocks are known to be already hashed, like in the first
-    # whole-document pass.
-    #
+    /**
+     * Run block gamut tranformations, without hashing HTML blocks. This is
+     * useful when HTML blocks are known to be already hashed, like in the first
+     * whole-document pass.
+     *
+     * @param string $text
+     * @return string
+     */
     function runBasicBlockGamut($text)
     {
 		$text = $this->doHeaders($text);
