@@ -592,7 +592,7 @@ class Base implements ParserInterface
 				(.*?)		# id = $3
 			  \]
 			)
-			}xs', array($this, '_doAnchors_reference_callback'), $text);
+			}xs', array($this, 'doAnchorReference'), $text);
 
         // Next, inline-style links: [link text](url "optional title")
 		$text = preg_replace_callback('{
@@ -635,7 +635,7 @@ class Base implements ParserInterface
         return $text;
     }
 
-    function _doAnchors_reference_callback($matches)
+    protected function doAnchorsReference($matches)
     {
         $whole_match = $matches[1];
         $link_text = $matches[2];
