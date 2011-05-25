@@ -699,7 +699,7 @@ class Base implements ParserInterface
     protected function doInlineAnchor($matches)
     {
         $link_text = $this->runSpanGamut($matches[2]);
-        $url = $matches[3] == '' ? $matches[4] : $matches[3];
+        $url = ($matches[3] == '') ? $matches[4] : $matches[3];
         $title =& $matches[7];
 
         $url = $this->encodeAttribute($url);
@@ -818,7 +818,7 @@ class Base implements ParserInterface
     protected function doImageInline($matches)
     {
         $alt_text = $matches[2];
-        $url = $matches[3] == '' ? $matches[4] : $matches[3];
+        $url = ($matches[3] == '') ? $matches[4] : $matches[3];
         $title =& $matches[7];
 
         $alt_text = $this->encodeAttribute($alt_text);
