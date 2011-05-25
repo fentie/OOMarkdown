@@ -256,11 +256,17 @@ class Base implements ParserInterface
 								[ ]*
 							)?	# title is optional
 							(?:\n+|\Z)
-			}xm', array($this, '_stripLinkDefinitions_callback'), $text);
+			}xm', array($this, 'stripLinkDefinition'), $text);
         return $text;
     }
 
-    function _stripLinkDefinitions_callback($matches)
+    /**
+     * Stores a link definition and then removes it from the text
+     *
+     * @param array $matches
+     * @return string
+     */
+    protected function stripLinkDefinition($matches)
     {
         $link_id = strtolower($matches[1]);
         $url = ($matches[2] == '') ? $matches[3] : $matches[2];
