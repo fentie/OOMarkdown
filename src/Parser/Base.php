@@ -62,6 +62,8 @@ class Base implements ParserInterface
      */
     private $insideAnchor = false;
 
+
+    private $listLevel = 0;
     /**
      * Class constructor
      *
@@ -950,7 +952,7 @@ class Base implements ParserInterface
             # We use a different prefix before nested lists than top-level lists.
             # See extended comment in _ProcessListItems().
 
-            if ($this->list_level) {
+            if ($this->listLevel) {
                 $text = preg_replace_callback('{
 						^
 						' . $whole_list_re . '
@@ -985,8 +987,6 @@ class Base implements ParserInterface
         return "\n" . $result . "\n\n";
     }
 
-    var $list_level = 0;
-
     #
     #	Process the contents of a single ordered or unordered list, splitting it
     #	into individual list items.
@@ -1013,7 +1013,7 @@ class Base implements ParserInterface
     # starting cardinal number; e.g. "1." or "a.".
     function processListItems($list_str, $marker_any_re)
     {
-        $this->list_level++;
+        $this->listLevel++;
 
         # trim trailing blank lines:
         $list_str = preg_replace("/\n{2,}\\z/", "\n", $list_str);
@@ -1029,7 +1029,7 @@ class Base implements ParserInterface
 			(?= \n* (\z | \2 (' . $marker_any_re . ') (?:[ ]+|(?=\n))))
 			}xm', array($this, '_processListItems_callback'), $list_str);
 
-        $this->list_level--;
+        $this->listLevel--;
         return $list_str;
     }
 
