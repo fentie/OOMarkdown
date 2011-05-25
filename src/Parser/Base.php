@@ -630,7 +630,7 @@ class Base implements ParserInterface
 				)?			# title is optional
 			  \)
 			)
-			}xs', array($this, '_doAnchors_inline_callback'), $text);
+			}xs', array($this, 'doInlineAnchor'), $text);
 
         /*
          * Last, handle reference-style shortcuts: [link text]
@@ -866,7 +866,7 @@ class Base implements ParserInterface
 				[ ]*
 				\#*			# optional closing #\'s (not counted)
 				\n+
-			}xm', array($this, '_doHeaders_callback_atx'), $text);
+			}xm', array($this, 'doAtxHeader'), $text);
 
         return $text;
     }
