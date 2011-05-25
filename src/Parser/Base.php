@@ -647,7 +647,13 @@ class Base implements ParserInterface
         return $text;
     }
 
-    protected function doAnchorsReference($matches)
+    /**
+     * Creates an HTML anchor tag based on Markdown syntax for a pre-defined
+     * reference
+     * @param array $matches
+     * @return string
+     */
+    protected function doAnchorReference($matches)
     {
         $whole_match = $matches[1];
         $link_text = $matches[2];
@@ -713,7 +719,7 @@ class Base implements ParserInterface
      * @param string $text
      * @return string
      */
-    function doImages($text)
+    public function doImages($text)
     {
         /*
          * First, handle reference-style labeled images: ![alt text][id]
@@ -732,7 +738,7 @@ class Base implements ParserInterface
 			  \]
 
 			)
-			}xs', array($this, '_doImages_reference_callback'), $text);
+			}xs', array($this, 'doImageReference'), $text);
 
         /*
          * Next, handle inline images:  ![alt text](url "optional title")
@@ -760,12 +766,18 @@ class Base implements ParserInterface
 				)?			# title is optional
 			  \)
 			)
-			}xs', array($this, '_doImages_inline_callback'), $text);
+			}xs', array($this, 'doImageInline'), $text);
 
         return $text;
     }
 
-    function _doImages_reference_callback($matches)
+    /**
+     * Transforms an image (with reference) in Markdown syntax into HTML
+     *
+     * @param array $matches
+     * @return string
+     */
+    protected function doImageReference($matches)
     {
         $whole_match = $matches[1];
         $alt_text = $matches[2];
@@ -794,7 +806,13 @@ class Base implements ParserInterface
         return $result;
     }
 
-    function _doImages_inline_callback($matches)
+    /**
+     * Transform an image defined in Markdown into HTML
+     *
+     * @param array $matches
+     * @return string
+     */
+    protected function doImageInline($matches)
     {
         $alt_text = $matches[2];
         $url = $matches[3] == '' ? $matches[4] : $matches[3];
@@ -827,7 +845,8 @@ class Base implements ParserInterface
          *   Header 2
          *   --------
          */
-		$text = preg_replace_callback('{ ^(.+?)[ ]*\n(=+|-+)[ ]*\n+ }mx', array($this, '_doHeaders_callback_setext'), $text);
+		$text = preg_replace_callback('{ ^(.+?)[ ]*\n(=+|-+)[ ]*\n+ }mx',
+            array($this, 'doSettextHeader'), $text);
 
         /*
          * atx-style headers:
@@ -849,18 +868,31 @@ class Base implements ParserInterface
         return $text;
     }
 
-    function _doHeaders_callback_setext($matches)
+    /**
+     * Transform a header (Settext style) from Markdown to HTML
+     *
+     * @param array $matches
+     * @return string
+     */
+    protected function doSettextHeader($matches)
     {
-        # Terrible hack to check we haven't found an empty list item.
-        if ($matches[2] == '-' && preg_match('{^-(?: |$)}', $matches[1]))
+        // Terrible hack to check we haven't found an empty list item.
+        if ($matches[2] == '-' && preg_match('{^-(?: |$)}', $matches[1])) {
             return $matches[0];
+        }
 
-        $level = $matches[2]{0} == '=' ? 1 : 2;
+        $level = ($matches[2]{0} == '=') ? 1 : 2;
         $block = "<h$level>" . $this->runSpanGamut($matches[1]) . "</h$level>";
         return "\n" . $this->hashBlock($block) . "\n\n";
     }
 
-    function _doHeaders_callback_atx($matches)
+    /**
+     * Transform a header (ATX style) from Markdown to HTML
+     *
+     * @param array $matches
+     * @return string
+     */
+    protected function doAtxHeader($matches)
     {
         $level = strlen($matches[1]);
         $block = "<h$level>" . $this->runSpanGamut($matches[2]) . "</h$level>";
