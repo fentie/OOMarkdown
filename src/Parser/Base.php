@@ -908,9 +908,9 @@ class Base implements ParserInterface
      * @param string $text
      * @return string
      */
-    function doLists($text)
+    public function doLists($text)
     {
-		$less_than_tab = $this->tabWidth - 1;
+		$lessThanTab = $this->tabWidth - 1;
 
         # Re-usable patterns to match list item bullets and number markers:
         $marker_ul_re = '[*+-]';
@@ -926,7 +926,7 @@ class Base implements ParserInterface
             $whole_list_re = '
 				(								# $1 = whole list
 				  (								# $2
-					([ ]{0,' . $less_than_tab . '})	# $3 = number of spaces
+					([ ]{0,' . $lessThanTab . '})	# $3 = number of spaces
 					(' . $marker_re . ')			# $4 = first list item marker
 					[ ]+
 				  )
