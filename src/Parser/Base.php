@@ -629,7 +629,7 @@ class Base implements ParserInterface
 				([^\[\]]+)		# link text = $2; can\'t contain [ or ]
 			  \]
 			)
-			}xs', array($this, '_doAnchors_reference_callback'), $text);
+			}xs', array($this, 'doInlineAnchor'), $text);
 
         $this->insideAnchor = false;
         return $text;
@@ -670,7 +670,7 @@ class Base implements ParserInterface
         return $result;
     }
 
-    function _doAnchors_inline_callback($matches)
+    protected function doInlineAnchor($matches)
     {
         $link_text = $this->runSpanGamut($matches[2]);
         $url = $matches[3] == '' ? $matches[4] : $matches[3];
