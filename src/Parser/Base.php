@@ -424,6 +424,12 @@ class Base implements ParserInterface
         return $text;
     }
 
+    /**
+     * Stores an HTML block for later use, replacing it with a hash reference
+     *
+     * @param array $matches
+     * @return string
+     */
     protected function hashHTMLBlock($matches)
     {
         $text = $matches[1];
