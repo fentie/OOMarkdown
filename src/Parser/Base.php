@@ -263,7 +263,7 @@ class Base implements ParserInterface
     function _stripLinkDefinitions_callback($matches)
     {
         $link_id = strtolower($matches[1]);
-        $url = $matches[2] == '' ? $matches[3] : $matches[2];
+        $url = ($matches[2] == '') ? $matches[3] : $matches[2];
         $this->urls[$link_id] = $url;
         $this->titles[$link_id] = & $matches[4];
         return ''; # String that will replace the block
