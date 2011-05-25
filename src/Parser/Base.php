@@ -787,6 +787,7 @@ class Base implements ParserInterface
             $link_id = strtolower($alt_text); # for shortcut links like ![this][].
         }
 
+        $result = '';
         $alt_text = $this->encodeAttribute($alt_text);
         if (isset($this->urls[$link_id])) {
             $url = $this->encodeAttribute($this->urls[$link_id]);
