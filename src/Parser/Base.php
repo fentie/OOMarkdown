@@ -639,7 +639,7 @@ class Base implements ParserInterface
     {
         $whole_match = $matches[1];
         $link_text = $matches[2];
-        $link_id = & $matches[3];
+        $link_id =& $matches[3];
 
         if ($link_id == "") {
             // for shortcut links like [this][] or [this].
