@@ -232,11 +232,11 @@ class Base implements ParserInterface
      */
 	public function stripLinkDefinitions($text)
     {
-        $less_than_tab = $this->tabWidth - 1;
+        $lessThanTab = $this->tabWidth - 1;
 
         // Link defs are in the form: ^[id]: url "optional title"
         $text = preg_replace_callback('{
-							^[ ]{0,' . $less_than_tab . '}\[(.+)\][ ]?:	# id = $1
+							^[ ]{0,' . $lessThanTab . '}\[(.+)\][ ]?:	# id = $1
 							  [ ]*
 							  \n?				# maybe *one* newline
 							  [ ]*
