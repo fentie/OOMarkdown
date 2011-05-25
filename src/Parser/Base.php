@@ -783,7 +783,7 @@ class Base implements ParserInterface
         $alt_text = $matches[2];
         $link_id = strtolower($matches[3]);
 
-        if ($link_id == "") {
+        if (empty($link_id)) {
             $link_id = strtolower($alt_text); # for shortcut links like ![this][].
         }
 
