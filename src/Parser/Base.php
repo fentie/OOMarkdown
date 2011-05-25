@@ -271,7 +271,7 @@ class Base implements ParserInterface
         $link_id = strtolower($matches[1]);
         $url = ($matches[2] == '') ? $matches[3] : $matches[2];
         $this->urls[$link_id] = $url;
-        $this->titles[$link_id] = & $matches[4];
+        $this->titles[$link_id] =& $matches[4];
         return ''; # String that will replace the block
     }
 
@@ -676,11 +676,17 @@ class Base implements ParserInterface
         return $result;
     }
 
+    /**
+     * Transform the Markdown syntax into an HTML anchor tag
+     *
+     * @param array $matches
+     * @return string
+     */
     protected function doInlineAnchor($matches)
     {
         $link_text = $this->runSpanGamut($matches[2]);
         $url = $matches[3] == '' ? $matches[4] : $matches[3];
-        $title = & $matches[7];
+        $title =& $matches[7];
 
         $url = $this->encodeAttribute($url);
 
@@ -786,7 +792,7 @@ class Base implements ParserInterface
     {
         $alt_text = $matches[2];
         $url = $matches[3] == '' ? $matches[4] : $matches[3];
-        $title = & $matches[7];
+        $title =& $matches[7];
 
         $alt_text = $this->encodeAttribute($alt_text);
         $url = $this->encodeAttribute($url);
