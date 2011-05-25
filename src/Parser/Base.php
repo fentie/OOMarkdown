@@ -641,7 +641,7 @@ class Base implements ParserInterface
         $link_text = $matches[2];
         $link_id =& $matches[3];
 
-        if ($link_id == "") {
+        if (empty($link_id)) {
             // for shortcut links like [this][] or [this].
             $link_id = $link_text;
         }
