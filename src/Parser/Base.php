@@ -62,8 +62,8 @@ class Base implements ParserInterface
      */
     private $insideAnchor = false;
 
-
     private $listLevel = 0;
+
     /**
      * Class constructor
      *
